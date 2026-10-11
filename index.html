@@ -5,18 +5,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Liam | Personal Website</title>
-
 <style>
+  * { box-sizing: border-box; }
+
   body {
     margin: 0;
     min-height: 100vh;
+    padding: 35px 18px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     font-family: "Microsoft YaHei", Arial, sans-serif;
     color: white;
     text-align: center;
-    background: linear-gradient(135deg, #141e30, #49318d, #e94091);
+    background: linear-gradient(135deg,#141e30,#49318d,#e94091);
     background-size: 300% 300%;
     animation: bgMove 7s infinite alternate;
   }
@@ -27,89 +29,302 @@
   }
 
   .card {
-    box-sizing: border-box;
-    padding: 50px 35px;
-    width: min(85%, 580px);
+    width: min(100%, 620px);
+    padding: 35px 24px;
     border-radius: 25px;
     background: rgba(255,255,255,0.12);
     backdrop-filter: blur(15px);
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
     border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
   }
 
-  h1 {
-    font-size: clamp(26px, 5vw, 38px);
-    line-height: 1.5;
-  }
-
-  p {
-    font-size: 18px;
-    opacity: 0.9;
-  }
+  h1 { font-size: clamp(25px,5vw,36px); line-height:1.5; }
+  p { line-height:1.8; opacity:.88; }
 
   .divider {
     width: 65%;
     height: 1px;
-    background: rgba(255,255,255,0.3);
-    margin: 30px auto;
+    margin: 25px auto;
+    background: rgba(255,255,255,.3);
   }
 
-  h2 {
-    font-size: 21px;
-    font-weight: 500;
+  h2 { font-size: 19px; font-weight: 500; }
+  .english { font-size: 14px; }
+
+  .player {
+    margin-top: 32px;
+    padding: 25px 18px;
+    border-radius: 20px;
+    background: rgba(10,10,30,.35);
   }
 
-  .english {
-    font-size: 15px;
-    line-height: 1.8;
-    opacity: 0.8;
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #e4c4ec;
+  }
+
+  .record {
+    width: 190px;
+    height: 190px;
+    margin: 20px auto;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background:
+      repeating-radial-gradient(
+        circle, #11111c 0px, #11111c 5px,
+        #292738 6px, #11111c 8px
+      );
+    border: 4px solid #141420;
+    box-shadow: 0 12px 35px rgba(0,0,0,.4);
+    animation: spin 4s linear infinite;
+    animation-play-state: paused;
+  }
+
+  .record.playing { animation-play-state: running; }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .label {
+    width: 75px;
+    height: 75px;
+    background: #c765a7;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+
+  .label::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #161320;
+  }
+
+  .song { font-size: 18px; margin: 12px 0 3px; }
+  .artist { font-size: 12px; opacity: .7; }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 18px 0;
   }
 
   button {
-    margin-top: 25px;
-    padding: 15px 32px;
-    font-size: 16px;
-    background: white;
-    color: #49318d;
     border: none;
-    border-radius: 50px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform .2s, background .2s;
+    font-family: inherit;
   }
 
-  button:hover {
-    transform: scale(1.1);
-    background: #ffdf69;
+  button:hover { transform: scale(1.1); }
+
+  .control {
+    background: transparent;
+    color: white;
+    font-size: 22px;
+    padding: 9px;
   }
+
+  .play {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    color: #49318d;
+    background: white;
+    font-size: 22px;
+  }
+
+  input[type=range] {
+    width: 100%;
+    accent-color: #e9aad9;
+    cursor: pointer;
+  }
+
+  .times {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    opacity: .7;
+  }
+
+  .volume {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: .85;
+  }
+
+  .volume input { flex: 1; }
+  .status { font-size: 12px; min-height: 20px; }
 </style>
 </head>
 
 <body>
-
-  <div class="card">
-
+  <main class="card">
     <h1>✨ 欢迎来到 Liam 的个人网站</h1>
-
     <p>其他内容，敬请期待。</p>
 
     <div class="divider"></div>
 
     <h2>Welcome to Liam's Personal Website</h2>
-
     <p class="english">
       More exciting content is coming soon.<br>
       Stay tuned!
     </p>
 
-    <button onclick="showMessage()">✨ Coming Soon</button>
+    <section class="player">
+      <div class="eyebrow">LIAM'S MUSIC ROOM</div>
 
-  </div>
+      <div class="record" id="record">
+        <div class="label">LIAM</div>
+      </div>
+
+      <div class="song" id="songTitle">My Favourite Song</div>
+      <div class="artist">Liam's Playlist</div>
+
+      <div class="controls">
+        <button class="control" onclick="changeSong(-1)" title="上一首">⏮</button>
+        <button class="play" id="playBtn" onclick="togglePlay()" title="播放或暂停">▶</button>
+        <button class="control" onclick="changeSong(1)" title="下一首">⏭</button>
+      </div>
+
+      <input id="progress" type="range" min="0" max="100" value="0" aria-label="播放进度">
+
+      <div class="times">
+        <span id="current">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+
+      <div class="volume">
+        <span>🔊 音量</span>
+        <input id="volume" type="range" min="0" max="1" step=".01" value=".7" aria-label="音量">
+      </div>
+
+      <p class="status" id="status">点击播放，开始聆听。</p>
+    </section>
+  </main>
+
+  <audio id="audio" preload="metadata"></audio>
 
 <script>
-  function showMessage() {
-    alert("Liam's website is under construction. Stay tuned! 🚀");
-  }
-</script>
+  // 以后可以在这里添加多首歌曲
+  const playlist = [
+    { title: "My Favourite Song", file: "music.mp3" }
+  ];
 
+  let index = 0;
+
+  const audio = document.getElementById("audio");
+  const record = document.getElementById("record");
+  const playBtn = document.getElementById("playBtn");
+  const progress = document.getElementById("progress");
+  const statusText = document.getElementById("status");
+
+  audio.volume = 0.7;
+
+  function loadSong() {
+    audio.src = playlist[index].file;
+    document.getElementById("songTitle").textContent =
+      playlist[index].title;
+    progress.value = 0;
+    document.getElementById("current").textContent = "0:00";
+    document.getElementById("duration").textContent = "0:00";
+    record.classList.remove("playing");
+    playBtn.textContent = "▶";
+  }
+
+  async function togglePlay() {
+    if (audio.paused) {
+      try {
+        await audio.play();
+      } catch (err) {
+        statusText.textContent = "播放失败，请检查 MP3 文件。";
+      }
+    } else {
+      audio.pause();
+    }
+  }
+
+  function changeSong(direction) {
+    if (playlist.length === 1) {
+      statusText.textContent = "目前只有一首歌，之后可以添加更多。";
+      return;
+    }
+    const wasPlaying = !audio.paused;
+    index = (index + direction + playlist.length) % playlist.length;
+    loadSong();
+    if (wasPlaying) togglePlay();
+  }
+
+  function formatTime(seconds) {
+    if (!Number.isFinite(seconds)) return "0:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
+  audio.addEventListener("play", () => {
+    record.classList.add("playing");
+    playBtn.textContent = "⏸";
+    statusText.textContent = "Now playing...";
+  });
+
+  audio.addEventListener("pause", () => {
+    record.classList.remove("playing");
+    playBtn.textContent = "▶";
+    statusText.textContent = "已暂停";
+  });
+
+  audio.addEventListener("loadedmetadata", () => {
+    document.getElementById("duration").textContent =
+      formatTime(audio.duration);
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+      progress.value = audio.currentTime / audio.duration * 100;
+    }
+    document.getElementById("current").textContent =
+      formatTime(audio.currentTime);
+  });
+
+  progress.addEventListener("input", () => {
+    if (Number.isFinite(audio.duration)) {
+      audio.currentTime = progress.value / 100 * audio.duration;
+    }
+  });
+
+  document.getElementById("volume").addEventListener("input", e => {
+    audio.volume = Number(e.target.value);
+  });
+
+  audio.addEventListener("ended", () => {
+    record.classList.remove("playing");
+    playBtn.textContent = "▶";
+    if (playlist.length > 1) {
+      changeSong(1);
+      togglePlay();
+    }
+  });
+
+  audio.addEventListener("error", () => {
+    statusText.textContent = "无法加载歌曲，请检查 music.mp3。";
+  });
+
+  loadSong();
+</script>
 </body>
 </html>
