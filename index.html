@@ -4,327 +4,1514 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Liam | Personal Website</title>
+<title>Liam's Universe | Personal Website</title>
+
 <style>
-  * { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-  body {
-    margin: 0;
-    min-height: 100vh;
-    padding: 35px 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Microsoft YaHei", Arial, sans-serif;
-    color: white;
-    text-align: center;
-    background: linear-gradient(135deg,#141e30,#49318d,#e94091);
-    background-size: 300% 300%;
-    animation: bgMove 7s infinite alternate;
+:root {
+  --white: #fff;
+  --pink: #efb8dc;
+  --glass: rgba(255,255,255,.12);
+  --border: rgba(255,255,255,.2);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Microsoft YaHei", Arial, sans-serif;
+  color: white;
+  background: linear-gradient(135deg,#141e30,#49318d,#e94091);
+  background-size: 300% 300%;
+  animation: bgMove 9s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove {
+  from { background-position: 0% 0%; }
+  to { background-position: 100% 100%; }
+}
+
+button, input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 15px 45px rgba(0,0,0,.18);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: 75px;
+  padding: 16px max(20px, calc((100vw - 1100px)/2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: rgba(16,16,35,.5);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.nav button {
+  padding: 9px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255,255,255,.75);
+  transition: .2s;
+}
+
+.nav button:hover,
+.nav button.active {
+  background: rgba(255,255,255,.15);
+  color: white;
+}
+
+.container {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 45px 20px 110px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+  animation: pageIn .45s ease;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
-
-  @keyframes bgMove {
-    from { background-position: left top; }
-    to { background-position: right bottom; }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .card {
-    width: min(100%, 620px);
-    padding: 35px 24px;
-    border-radius: 25px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-  }
+.page-title {
+  font-size: clamp(32px,5vw,52px);
+  margin: 10px 0;
+}
 
-  h1 { font-size: clamp(25px,5vw,36px); line-height:1.5; }
-  p { line-height:1.8; opacity:.88; }
+.subtitle {
+  color: rgba(255,255,255,.75);
+  line-height: 1.8;
+}
 
-  .divider {
-    width: 65%;
-    height: 1px;
-    margin: 25px auto;
-    background: rgba(255,255,255,.3);
-  }
+.eyebrow {
+  color: #f5c6e5;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
 
-  h2 { font-size: 19px; font-weight: 500; }
-  .english { font-size: 14px; }
+.primary-btn {
+  border: none;
+  border-radius: 50px;
+  padding: 14px 26px;
+  background: white;
+  color: #563271;
+  font-weight: bold;
+  transition: .25s;
+}
 
-  .player {
-    margin-top: 32px;
-    padding: 25px 18px;
-    border-radius: 20px;
-    background: rgba(10,10,30,.35);
-  }
+.primary-btn:hover {
+  transform: translateY(-3px);
+  background: #ffe6f5;
+}
 
-  .eyebrow {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #e4c4ec;
-  }
+/* HOME */
 
-  .record {
-    width: 190px;
-    height: 190px;
-    margin: 20px auto;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background:
-      repeating-radial-gradient(
-        circle, #11111c 0px, #11111c 5px,
-        #292738 6px, #11111c 8px
-      );
-    border: 4px solid #141420;
-    box-shadow: 0 12px 35px rgba(0,0,0,.4);
-    animation: spin 4s linear infinite;
-    animation-play-state: paused;
-  }
+.home-hero {
+  padding: 75px 30px;
+  border-radius: 30px;
+  text-align: center;
+}
 
-  .record.playing { animation-play-state: running; }
+.home-hero h1 {
+  margin: 18px 0;
+  font-size: clamp(32px,5vw,55px);
+}
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+.home-hero p {
+  color: #f1e1f1;
+  line-height: 1.9;
+}
 
-  .label {
-    width: 75px;
-    height: 75px;
-    background: #c765a7;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 2px;
-  }
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
 
-  .label::after {
-    content: "";
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #161320;
-  }
+.portal {
+  min-height: 170px;
+  padding: 28px;
+  border-radius: 22px;
+  text-align: left;
+  color: white;
+  transition: .3s;
+}
 
-  .song { font-size: 18px; margin: 12px 0 3px; }
-  .artist { font-size: 12px; opacity: .7; }
+.portal:hover {
+  transform: translateY(-6px);
+  background: rgba(255,255,255,.22);
+}
 
-  .controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin: 18px 0;
-  }
+.portal-icon {
+  font-size: 34px;
+}
 
-  button {
-    border: none;
-    cursor: pointer;
-    transition: transform .2s, background .2s;
-    font-family: inherit;
-  }
+.portal h3 {
+  font-size: 21px;
+  margin: 17px 0 7px;
+}
 
-  button:hover { transform: scale(1.1); }
+.portal p {
+  color: #ead5ed;
+  margin: 0;
+  font-size: 13px;
+}
 
-  .control {
-    background: transparent;
-    color: white;
-    font-size: 22px;
-    padding: 9px;
-  }
+/* MUSIC ROOM */
 
-  .play {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    color: #49318d;
-    background: white;
-    font-size: 22px;
-  }
+.music-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-top: 28px;
+}
 
-  input[type=range] {
-    width: 100%;
-    accent-color: #e9aad9;
-    cursor: pointer;
-  }
+.music-panel {
+  padding: 35px 25px;
+  border-radius: 26px;
+  text-align: center;
+}
 
-  .times {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    opacity: .7;
-  }
+.vinyl {
+  width: 215px;
+  height: 215px;
+  margin: 20px auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 5px solid #151421;
+  background:
+    repeating-radial-gradient(
+      circle,
+      #11111c 0px,
+      #11111c 5px,
+      #292738 6px,
+      #11111c 8px
+    );
+  box-shadow: 0 15px 35px rgba(0,0,0,.4);
+  animation: spin 4s linear infinite;
+  animation-play-state: paused;
+}
 
-  .volume {
-    display: flex;
-    align-items: center;
+.vinyl.spinning {
+  animation-play-state: running;
+}
+
+.vinyl-label {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: #c765a7;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: white;
+  position: relative;
+}
+
+.vinyl-label::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #11111c;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.track-title {
+  font-size: 21px;
+  margin: 15px 0 5px;
+}
+
+.track-artist {
+  color: #dcc6e2;
+  font-size: 13px;
+}
+
+.music-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.round-btn {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  color: #4b2e6b;
+  font-size: 22px;
+}
+
+.music-progress {
+  width: 100%;
+  accent-color: #efb8dc;
+  cursor: pointer;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 7px 0 20px;
+  color: #dcc6e2;
+  font-size: 12px;
+}
+
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #dcc6e2;
+  font-size: 13px;
+}
+
+.volume-row input {
+  flex: 1;
+  min-width: 0;
+  accent-color: #efb8dc;
+}
+
+.playlist-panel {
+  padding: 30px;
+  border-radius: 26px;
+}
+
+.playlist-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  margin-top: 20px;
+  background: rgba(255,255,255,.13);
+  border-radius: 14px;
+}
+
+.playlist-row .track-icon {
+  font-size: 27px;
+}
+
+.playlist-row p {
+  font-size: 12px;
+  margin: 5px 0 0;
+  color: #ddc8e4;
+}
+
+/* FLOATING GLOBAL PLAYER */
+
+.floating-player {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mini-vinyl {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  border: 3px solid #cba6ce;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle,
+      #11111c 0px,
+      #11111c 5px,
+      #302a3e 6px,
+      #11111c 8px
+    );
+  box-shadow: 0 10px 28px rgba(0,0,0,.4);
+}
+
+.mini-vinyl.spinning {
+  animation: spin 4s linear infinite;
+}
+
+.mini-vinyl span {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #ce7cb1;
+  font-size: 9px;
+  color: white;
+}
+
+.mini-panel {
+  width: 245px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(30,24,51,.93);
+  border: 1px solid rgba(255,255,255,.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+.mini-panel p {
+  color: #dec9e9;
+  font-size: 12px;
+}
+
+.mini-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.mini-controls button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 9px;
+  background: #654676;
+  color: white;
+}
+
+/* MEMORY GALLERY */
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.memory-desk {
+  min-height: 600px;
+  padding: 45px 35px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(182,115,157,.25),
+      transparent 55%
+    ),
+    linear-gradient(145deg,#33283b,#201a2d);
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: inset 0 0 60px rgba(0,0,0,.2);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 28px;
+  align-items: center;
+}
+
+.polaroid {
+  min-width: 0;
+  padding: 12px 12px 24px;
+  border: none;
+  background: #f4eee4;
+  box-shadow: 0 12px 25px rgba(0,0,0,.32);
+  color: #433843;
+  text-align: center;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.polaroid:nth-child(3n+1) {
+  transform: rotate(-5deg);
+}
+
+.polaroid:nth-child(3n+2) {
+  transform: rotate(4deg);
+}
+
+.polaroid:nth-child(3n) {
+  transform: rotate(-2deg);
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.055);
+  box-shadow: 0 20px 35px rgba(0,0,0,.4);
+  z-index: 2;
+}
+
+.photo-slot {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #c8b6c9;
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #55445d;
+  background: linear-gradient(135deg,#d6c0d0,#aaa3c4);
+}
+
+.photo-placeholder .star {
+  font-size: 38px;
+}
+
+.photo-placeholder small {
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+
+.polaroid-caption {
+  display: block;
+  margin-top: 16px;
+  font-family: Georgia, "Microsoft YaHei", serif;
+  font-style: italic;
+  font-size: 15px;
+}
+
+.gallery-hint {
+  margin: 35px 0 0;
+  text-align: center;
+  color: #d8c3df;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* FULLSCREEN PHOTO VIEWER */
+
+.photo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(7,6,15,.94);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.viewer {
+  width: min(650px,100%);
+  max-height: 96vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.viewer-toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.viewer-toolbar button,
+.viewer-actions button {
+  padding: 10px 15px;
+  border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,.12);
+  color: white;
+  border-radius: 12px;
+}
+
+.flip-stage {
+  width: min(440px,100%);
+  height: min(63vh,550px);
+  perspective: 1200px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform .7s;
+  transform-style: preserve-3d;
+}
+
+.flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  padding: 15px 15px 30px;
+  background: #f4eee4;
+  color: #403540;
+  backface-visibility: hidden;
+  box-shadow: 0 20px 45px rgba(0,0,0,.4);
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-face.back {
+  transform: rotateY(180deg);
+  background: #eee3d3;
+  padding: 35px;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.viewer-photo {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #cbb9c7;
+}
+
+.viewer-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.viewer-caption {
+  margin-top: 18px;
+  text-align: center;
+  font: italic 18px Georgia,serif;
+}
+
+.back-date {
+  color: #9c858d;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.back-story {
+  max-height: 65%;
+  overflow: auto;
+  font-size: 17px;
+  line-height: 2;
+  white-space: pre-line;
+}
+
+.secret-button {
+  padding: 10px 16px;
+  background: #64456d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.viewer-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* CREATIVE & ABOUT */
+
+.info-panel {
+  padding: 55px 30px;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.info-panel h2 {
+  font-size: 32px;
+}
+
+/* WELCOME ENTRANCE */
+
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg,#141e30,#49318d,#e94091);
+  background-size: 300% 300%;
+  animation: bgMove 9s ease-in-out infinite alternate;
+}
+
+.welcome-card {
+  width: min(650px,100%);
+  padding: 75px 30px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.welcome-card h1 {
+  font-size: clamp(36px,7vw,65px);
+}
+
+.welcome-card p {
+  margin: 25px 0;
+  color: #e9d6ee;
+}
+
+.welcome-card .primary-btn {
+  margin-top: 20px;
+}
+
+/* TOAST */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 25px;
+  transform: translateX(-50%);
+  max-width: 90vw;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: #241d35;
+  color: white;
+  z-index: 120;
+  box-shadow: 0 10px 30px rgba(0,0,0,.3);
+  text-align: center;
+}
+
+/* MOBILE */
+
+@media(max-width:700px) {
+  .topbar {
+    flex-direction: column;
     gap: 12px;
-    margin-top: 14px;
-    font-size: 13px;
-    opacity: .85;
   }
 
-  .volume input { flex: 1; }
-  .status { font-size: 12px; min-height: 20px; }
+  .nav {
+    justify-content: center;
+  }
+
+  .nav button {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .container {
+    padding: 25px 15px 100px;
+  }
+
+  .home-hero {
+    padding: 45px 20px;
+  }
+
+  .portal-grid {
+    gap: 12px;
+  }
+
+  .portal {
+    min-height: 150px;
+    padding: 17px;
+  }
+
+  .portal h3 {
+    font-size: 16px;
+  }
+
+  .music-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 18px;
+  }
+
+  .memory-desk {
+    padding: 27px 17px;
+  }
+
+  .polaroid {
+    padding: 8px 8px 16px;
+  }
+
+  .polaroid-caption {
+    font-size: 12px;
+  }
+
+  .floating-player {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .mini-vinyl {
+    width: 54px;
+    height: 54px;
+  }
+
+  .flip-stage {
+    height: min(60vh,490px);
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
 </style>
 </head>
 
 <body>
-  <main class="card">
-    <h1>✨ 欢迎来到 Liam 的个人网站</h1>
-    <p>其他内容，敬请期待。</p>
 
-    <div class="divider"></div>
+<!-- WELCOME ENTRANCE -->
 
-    <h2>Welcome to Liam's Personal Website</h2>
-    <p class="english">
-      More exciting content is coming soon.<br>
-      Stay tuned!
+<div class="welcome-screen" id="welcomeScreen">
+  <div class="welcome-card glass">
+    <div class="eyebrow">WELCOME TO MY WORLD</div>
+    <h1>LIAM'S UNIVERSE</h1>
+    <p>Music, memories & everything in between.</p>
+    <p>欢迎来到 Liam 的个人世界。</p>
+    <button class="primary-btn" id="enterButton">
+      ✨ Enter My World
+    </button>
+    <p style="font-size:12px">♫ Best experienced with sound</p>
+  </div>
+</div>
+
+<!-- TOP NAVIGATION -->
+
+<header class="topbar">
+  <div class="logo">LIAM.</div>
+
+  <nav class="nav" aria-label="网站分区">
+    <button data-page="home" class="active">Home</button>
+    <button data-page="music">Music</button>
+    <button data-page="gallery">Gallery</button>
+    <button data-page="creative">Works</button>
+    <button data-page="about">About</button>
+  </nav>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+
+<section class="page active" id="page-home">
+  <div class="home-hero glass">
+    <div class="eyebrow">WELCOME TO</div>
+
+    <h1>Liam's Universe</h1>
+
+    <p>欢迎来到 Liam 的个人网站。</p>
+
+    <p>
+      Music, memories & everything in between.<br>
+      More exciting content is coming soon.
     </p>
+  </div>
 
-    <section class="player">
-      <div class="eyebrow">LIAM'S MUSIC ROOM</div>
+  <div class="portal-grid">
+    <button class="portal glass" data-page="music">
+      <div class="portal-icon">💿</div>
+      <h3>Music Room</h3>
+      <p>Explore my sounds</p>
+    </button>
 
-      <div class="record" id="record">
-        <div class="label">LIAM</div>
+    <button class="portal glass" data-page="gallery">
+      <div class="portal-icon">📷</div>
+      <h3>Memory Gallery</h3>
+      <p>Fragments of life</p>
+    </button>
+
+    <button class="portal glass" data-page="creative">
+      <div class="portal-icon">🎬</div>
+      <h3>Creative Studio</h3>
+      <p>Images and films</p>
+    </button>
+
+    <button class="portal glass" data-page="about">
+      <div class="portal-icon">✨</div>
+      <h3>About Liam</h3>
+      <p>The person behind it</p>
+    </button>
+  </div>
+</section>
+
+<!-- MUSIC ROOM -->
+
+<section class="page" id="page-music">
+  <div class="eyebrow">LIAM'S UNIVERSE / MUSIC</div>
+  <h1 class="page-title">Music Room</h1>
+  <p class="subtitle">Welcome to my personal soundtrack.</p>
+
+  <div class="music-layout">
+
+    <div class="music-panel glass">
+      <div class="eyebrow">NOW PLAYING</div>
+
+      <div class="vinyl" id="mainVinyl">
+        <div class="vinyl-label">LIAM</div>
       </div>
 
-      <div class="song" id="songTitle">My Favourite Song</div>
-      <div class="artist">Liam's Playlist</div>
+      <h2 class="track-title">My Favourite Song</h2>
+      <div class="track-artist">Liam's Playlist</div>
 
-      <div class="controls">
-        <button class="control" onclick="changeSong(-1)" title="上一首">⏮</button>
-        <button class="play" id="playBtn" onclick="togglePlay()" title="播放或暂停">▶</button>
-        <button class="control" onclick="changeSong(1)" title="下一首">⏭</button>
+      <div class="music-controls">
+        <button class="round-btn" id="mainPlay" aria-label="播放或暂停">
+          ▶
+        </button>
       </div>
 
-      <input id="progress" type="range" min="0" max="100" value="0" aria-label="播放进度">
+      <input
+        class="music-progress"
+        id="musicProgress"
+        type="range"
+        min="0"
+        max="1000"
+        value="0"
+        aria-label="播放进度"
+      >
 
-      <div class="times">
-        <span id="current">0:00</span>
-        <span id="duration">0:00</span>
+      <div class="time-row">
+        <span id="currentTime">0:00</span>
+        <span id="durationTime">0:00</span>
       </div>
 
-      <div class="volume">
-        <span>🔊 音量</span>
-        <input id="volume" type="range" min="0" max="1" step=".01" value=".7" aria-label="音量">
+      <div class="volume-row">
+        <span>🔊 Volume</span>
+        <input
+          id="musicVolume"
+          type="range"
+          min="0"
+          max="1"
+          step=".01"
+          value=".7"
+          aria-label="音量"
+        >
+      </div>
+    </div>
+
+    <div class="playlist-panel glass">
+      <div class="eyebrow">MY PLAYLIST</div>
+      <h2>Liam's Collection</h2>
+      <p class="subtitle">
+        A small collection of sounds that mean something to me.
+      </p>
+
+      <div class="playlist-row">
+        <div class="track-icon">🎵</div>
+        <div>
+          <strong>01 · My Favourite Song</strong>
+          <p>Welcome Track</p>
+        </div>
       </div>
 
-      <p class="status" id="status">点击播放，开始聆听。</p>
-    </section>
-  </main>
+      <p class="subtitle" style="margin-top:30px">
+        More music will be added soon.
+      </p>
+    </div>
+  </div>
+</section>
 
-  <audio id="audio" preload="metadata"></audio>
+<!-- MEMORY GALLERY -->
+
+<section class="page" id="page-gallery">
+  <div class="gallery-header">
+    <div class="eyebrow">LIAM'S UNIVERSE / MEMORIES</div>
+    <h1 class="page-title">Fragments of Liam</h1>
+    <p class="subtitle">
+      Some moments stay.<br>
+      一些瞬间，值得被留下。
+    </p>
+  </div>
+
+  <div class="memory-desk">
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <p class="gallery-hint">
+      CLICK TO EXPLORE · FLIP TO REMEMBER
+    </p>
+  </div>
+</section>
+
+<!-- CREATIVE STUDIO -->
+
+<section class="page" id="page-creative">
+  <div class="eyebrow">LIAM'S UNIVERSE / CREATIVE</div>
+
+  <div class="info-panel glass">
+    <h2>Creative Studio</h2>
+    <p class="subtitle">AI Images · Films · Experiments</p>
+    <p>这里将展示 Liam 的 AI 图片与视频作品。</p>
+    <p>Coming Soon.</p>
+  </div>
+</section>
+
+<!-- ABOUT LIAM -->
+
+<section class="page" id="page-about">
+  <div class="eyebrow">LIAM'S UNIVERSE / ABOUT</div>
+
+  <div class="info-panel glass">
+    <h2>About Liam</h2>
+    <p class="subtitle">
+      A little creativity. A little chaos.
+    </p>
+    <p>欢迎来到我的个人世界。</p>
+    <p>更多故事，敬请期待。</p>
+  </div>
+</section>
+
+</main>
+
+<!-- GLOBAL FLOATING MUSIC PLAYER -->
+
+<aside class="floating-player" id="floatingPlayer">
+  <div class="mini-panel" id="miniPanel" hidden>
+    <strong>Now Playing</strong>
+    <p>My Favourite Song</p>
+
+    <div class="mini-controls">
+      <button id="miniPlay">▶ 播放</button>
+      <button id="miniMusicRoom">Music Room</button>
+    </div>
+  </div>
+
+  <button
+    class="mini-vinyl"
+    id="miniVinyl"
+    aria-label="展开音乐播放器"
+    aria-expanded="false"
+  >
+    <span>LIAM</span>
+  </button>
+</aside>
+
+<!-- PHOTO VIEWER -->
+
+<div
+  class="photo-modal"
+  id="photoModal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="照片浏览"
+  hidden
+>
+  <div class="viewer">
+
+    <div class="viewer-toolbar">
+      <span id="photoCounter">1 / 9</span>
+      <button id="closePhoto">✕ Close</button>
+    </div>
+
+    <div class="flip-stage">
+      <div class="flip-inner" id="flipInner">
+
+        <div class="flip-face front">
+          <div class="viewer-photo" id="viewerPhoto"></div>
+          <div class="viewer-caption" id="viewerCaption"></div>
+        </div>
+
+        <div class="flip-face back">
+          <div class="back-date" id="backDate"></div>
+          <div class="back-story" id="backStory"></div>
+          <button class="secret-button" id="secretButton" hidden>
+            ✦ Discover the Secret
+          </button>
+          <div style="font-size:12px;color:#99818d">— Liam</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="viewer-actions">
+      <button id="previousPhoto">← Previous</button>
+      <button id="flipPhoto">↻ Flip Photo</button>
+      <button id="nextPhoto">Next →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ONE GLOBAL AUDIO INSTANCE -->
+
+<audio id="globalAudio" src="music.mp3" preload="metadata"></audio>
+
+<div class="toast" id="toast" hidden></div>
 
 <script>
-  // 以后可以在这里添加多首歌曲
-  const playlist = [
-    { title: "My Favourite Song", file: "music.mp3" }
-  ];
 
-  let index = 0;
+/* AUDIO SYSTEM */
 
-  const audio = document.getElementById("audio");
-  const record = document.getElementById("record");
-  const playBtn = document.getElementById("playBtn");
-  const progress = document.getElementById("progress");
-  const statusText = document.getElementById("status");
+const audio = document.getElementById("globalAudio");
+const mainPlay = document.getElementById("mainPlay");
+const mainVinyl = document.getElementById("mainVinyl");
+const miniVinyl = document.getElementById("miniVinyl");
+const miniPlay = document.getElementById("miniPlay");
+const miniPanel = document.getElementById("miniPanel");
+const floatingPlayer = document.getElementById("floatingPlayer");
+const progress = document.getElementById("musicProgress");
+const volume = document.getElementById("musicVolume");
 
-  audio.volume = 0.7;
+audio.volume = 0.7;
+audio.loop = true;
 
-  function loadSong() {
-    audio.src = playlist[index].file;
-    document.getElementById("songTitle").textContent =
-      playlist[index].title;
-    progress.value = 0;
-    document.getElementById("current").textContent = "0:00";
-    document.getElementById("duration").textContent = "0:00";
-    record.classList.remove("playing");
-    playBtn.textContent = "▶";
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds)) return "0:00";
+
+  const minutes = Math.floor(seconds / 60);
+  const remaining = Math.floor(seconds % 60);
+
+  return minutes + ":" + String(remaining).padStart(2, "0");
+}
+
+function updateAudioUI() {
+  const playing = !audio.paused;
+
+  mainPlay.textContent = playing ? "⏸" : "▶";
+  miniPlay.textContent = playing ? "⏸ 暂停" : "▶ 播放";
+
+  mainVinyl.classList.toggle("spinning", playing);
+  miniVinyl.classList.toggle("spinning", playing);
+}
+
+async function togglePlay() {
+  if (audio.paused) {
+    try {
+      await audio.play();
+    } catch (error) {
+      showToast("播放失败，请检查 music.mp3 文件。");
+    }
+  } else {
+    audio.pause();
+  }
+}
+
+function updateProgress() {
+  if (Number.isFinite(audio.duration) && audio.duration > 0) {
+    progress.value = Math.round(
+      audio.currentTime / audio.duration * 1000
+    );
   }
 
-  async function togglePlay() {
-    if (audio.paused) {
-      try {
-        await audio.play();
-      } catch (err) {
-        statusText.textContent = "播放失败，请检查 MP3 文件。";
-      }
-    } else {
-      audio.pause();
-    }
+  document.getElementById("currentTime").textContent =
+    formatTime(audio.currentTime);
+}
+
+mainPlay.addEventListener("click", togglePlay);
+miniPlay.addEventListener("click", togglePlay);
+
+audio.addEventListener("play", updateAudioUI);
+audio.addEventListener("pause", updateAudioUI);
+audio.addEventListener("timeupdate", updateProgress);
+
+audio.addEventListener("loadedmetadata", () => {
+  document.getElementById("durationTime").textContent =
+    formatTime(audio.duration);
+});
+
+audio.addEventListener("error", () => {
+  showToast("找不到音乐文件，请检查 music.mp3。");
+});
+
+progress.addEventListener("input", () => {
+  if (Number.isFinite(audio.duration) && audio.duration > 0) {
+    audio.currentTime = progress.value / 1000 * audio.duration;
+  }
+});
+
+volume.addEventListener("input", () => {
+  audio.volume = Number(volume.value);
+});
+
+miniVinyl.addEventListener("click", () => {
+  miniPanel.hidden = !miniPanel.hidden;
+  miniVinyl.setAttribute("aria-expanded", String(!miniPanel.hidden));
+});
+
+document.getElementById("miniMusicRoom").addEventListener("click", () => {
+  showPage("music");
+});
+
+/* PAGE NAVIGATION */
+
+function showPage(pageName) {
+  const target = document.getElementById("page-" + pageName);
+
+  if (!target) return;
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  target.classList.add("active");
+
+  document.querySelectorAll(".nav button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === pageName
+    );
+  });
+
+  floatingPlayer.hidden = pageName === "music";
+  miniPanel.hidden = true;
+  miniVinyl.setAttribute("aria-expanded", "false");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.page);
+  });
+});
+
+/* WELCOME ENTRANCE */
+
+document.getElementById("enterButton").addEventListener("click", () => {
+  document.getElementById("welcomeScreen").hidden = true;
+
+  if (audio.paused) {
+    togglePlay();
   }
 
-  function changeSong(direction) {
-    if (playlist.length === 1) {
-      statusText.textContent = "目前只有一首歌，之后可以添加更多。";
-      return;
-    }
-    const wasPlaying = !audio.paused;
-    index = (index + direction + playlist.length) % playlist.length;
-    loadSong();
-    if (wasPlaying) togglePlay();
+  showPage("home");
+});
+
+/* PHOTO DATA */
+
+const photos = [
+  {
+    id: 1,
+    image: "photos/photo01.jpg",
+    title: "The Beginning",
+    date: "A LITTLE MEMORY",
+    story: "小小的老子。",
+    clue: false
+  },
+  {
+    id: 2,
+    image: "photos/photo02.jpg",
+    title: "The Winter",
+    date: "MUSIC & MEMORIES",
+    story: "冬。",
+    clue: false
+  },
+  {
+    id: 3,
+    image: "photos/photo03.jpg",
+    title: "Somewhere",
+    date: "SOMEWHERE IN TIME",
+    story: "秋。",
+    clue: false
+  },
+  {
+    id: 4,
+    image: "photos/photo04.jpg",
+    title: "Me",
+    date: "PEOPLE",
+    story: "小小的老子。",
+    clue: false
+  },
+  {
+    id: 5,
+    image: "photos/photo05.jpg",
+    title: "Kiss",
+    date: "AFTER DARK",
+    story: "吻的像只爱过你一样.",
+    clue: false
+  },
+  {
+    id: 6,
+    image: "photos/photo06.jpg",
+    title: "The Moment",
+    date: "A PERSONAL NOTE",
+    story: "夏。",
+    clue: false
+  },
+  {
+    id: 7,
+    image: "photos/photo07.jpg",
+    title: "Golden Hour",
+    date: "A LITTLE MEMORY",
+    story: "春。",
+    clue: false
+  },
+  {
+    id: 8,
+    image: "photos/photo08.jpg",
+    title: "Ordinary Days",
+    date: "DAILY LIFE",
+    story: "傻傻的。",
+    clue: false
+  },
+  {
+    id: 9,
+    image: "photos/photo09.jpg",
+    title: "Anti society",
+    date: "精神小伙时期",
+    story: "Not every memory is visible.\n有些故事，需要你再往前走一步。",
+    clue: true
   }
+];
 
-  function formatTime(seconds) {
-    if (!Number.isFinite(seconds)) return "0:00";
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return m + ":" + String(s).padStart(2, "0");
-  }
+const secretPhoto = {
+  id: 10,
+  image: "photos/secret.jpg",
+  title: "You Found Me",
+  date: "A SECRET MEMORY",
+  story: "Some memories aren't meant to be found. But you found this one.",
+  clue: false
+};
 
-  audio.addEventListener("play", () => {
-    record.classList.add("playing");
-    playBtn.textContent = "⏸";
-    statusText.textContent = "Now playing...";
+let secretUnlocked = false;
+let currentPhotoIndex = 0;
+
+function visiblePhotos() {
+  return secretUnlocked ? [...photos, secretPhoto] : photos;
+}
+
+/* IMAGE DISPLAY */
+
+function createPhotoImage(container, photo, number) {
+  container.replaceChildren();
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "photo-placeholder";
+
+  const star = document.createElement("span");
+  star.className = "star";
+  star.textContent = "✦";
+
+  const label = document.createElement("small");
+  label.textContent = "PHOTO " + String(number).padStart(2, "0");
+
+  placeholder.append(star, label);
+
+  const img = document.createElement("img");
+  img.alt = photo.title;
+  img.loading = "lazy";
+
+  img.onload = () => {
+    placeholder.hidden = true;
+  };
+
+  img.onerror = () => {
+    img.hidden = true;
+  };
+
+  container.append(placeholder, img);
+  img.src = photo.image;
+}
+
+/* GALLERY RENDER */
+
+function renderGallery() {
+  const grid = document.getElementById("galleryGrid");
+  grid.replaceChildren();
+
+  visiblePhotos().forEach((photo, index) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "polaroid";
+    card.setAttribute("aria-label", "查看照片：" + photo.title);
+
+    const imageBox = document.createElement("div");
+    imageBox.className = "photo-slot";
+
+    createPhotoImage(imageBox, photo, index + 1);
+
+    const caption = document.createElement("span");
+    caption.className = "polaroid-caption";
+    caption.textContent = photo.title;
+
+    card.append(imageBox, caption);
+
+    card.addEventListener("click", () => {
+      openPhoto(index);
+    });
+
+    grid.appendChild(card);
   });
+}
 
-  audio.addEventListener("pause", () => {
-    record.classList.remove("playing");
-    playBtn.textContent = "▶";
-    statusText.textContent = "已暂停";
-  });
+/* PHOTO MODAL */
 
-  audio.addEventListener("loadedmetadata", () => {
-    document.getElementById("duration").textContent =
-      formatTime(audio.duration);
-  });
+const modal = document.getElementById("photoModal");
+const flipInner = document.getElementById("flipInner");
+const secretButton = document.getElementById("secretButton");
 
-  audio.addEventListener("timeupdate", () => {
-    if (Number.isFinite(audio.duration) && audio.duration > 0) {
-      progress.value = audio.currentTime / audio.duration * 100;
-    }
-    document.getElementById("current").textContent =
-      formatTime(audio.currentTime);
-  });
+function displayCurrentPhoto() {
+  const list = visiblePhotos();
+  const photo = list[currentPhotoIndex];
 
-  progress.addEventListener("input", () => {
-    if (Number.isFinite(audio.duration)) {
-      audio.currentTime = progress.value / 100 * audio.duration;
-    }
-  });
+  if (!photo) return;
 
-  document.getElementById("volume").addEventListener("input", e => {
-    audio.volume = Number(e.target.value);
-  });
+  flipInner.classList.remove("flipped");
 
-  audio.addEventListener("ended", () => {
-    record.classList.remove("playing");
-    playBtn.textContent = "▶";
-    if (playlist.length > 1) {
-      changeSong(1);
-      togglePlay();
-    }
-  });
+  document.getElementById("photoCounter").textContent =
+    (currentPhotoIndex + 1) + " / " + list.length;
 
-  audio.addEventListener("error", () => {
-    statusText.textContent = "无法加载歌曲，请检查 music.mp3。";
-  });
+  document.getElementById("viewerCaption").textContent = photo.title;
+  document.getElementById("backDate").textContent = photo.date;
+  document.getElementById("backStory").textContent = photo.story;
 
-  loadSong();
+  createPhotoImage(
+    document.getElementById("viewerPhoto"),
+    photo,
+    currentPhotoIndex + 1
+  );
+
+  secretButton.hidden = !photo.clue || secretUnlocked;
+}
+
+function openPhoto(index) {
+  currentPhotoIndex = index;
+  displayCurrentPhoto();
+
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+}
+
+function closePhoto() {
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
+function changePhoto(direction) {
+  const total = visiblePhotos().length;
+
+  currentPhotoIndex =
+    (currentPhotoIndex + direction + total) % total;
+
+  displayCurrentPhoto();
+}
+
+document.getElementById("closePhoto").addEventListener("click", closePhoto);
+
+document.getElementById("previousPhoto").addEventListener("click", () => {
+  changePhoto(-1);
+});
+
+document.getElementById("nextPhoto").addEventListener("click", () => {
+  changePhoto(1);
+});
+
+document.getElementById("flipPhoto").addEventListener("click", () => {
+  flipInner.classList.toggle("flipped");
+});
+
+secretButton.addEventListener("click", () => {
+  secretUnlocked = true;
+  closePhoto();
+  renderGallery();
+  showToast("✦ A hidden memory has been unlocked.");
+});
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closePhoto();
+});
+
+document.addEventListener("keydown", event => {
+  if (modal.hidden) return;
+
+  if (event.key === "Escape") closePhoto();
+  if (event.key === "ArrowLeft") changePhoto(-1);
+  if (event.key === "ArrowRight") changePhoto(1);
+});
+
+/* NOTIFICATION */
+
+let toastTimeout;
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.hidden = false;
+
+  clearTimeout(toastTimeout);
+
+  toastTimeout = setTimeout(() => {
+    toast.hidden = true;
+  }, 3500);
+}
+
+/* INITIALIZATION */
+
+renderGallery();
+updateAudioUI();
+showPage("home");
+
 </script>
+
 </body>
 </html>
